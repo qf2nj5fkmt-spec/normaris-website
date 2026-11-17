@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normaris</title>
+<meta name="description" content="Normaris gets UK businesses ISO certified and running Microsoft properly: secure, audit-ready and built to pass.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#070B16; --ink2:#0D1426; --ink3:#151F38; --line:rgba(255,255,255,.09);
+  --paper:#F5F7FB; --white:#fff; --text:#0B1222; --muted:#5A6478; --muted-d:#9AA6C0;
+  --cobalt:#4C6FFF; --cobalt2:#3553E6; --mint:#34E0B0; --amber:#FFB547;
+  --r:18px; --r-s:12px;
+  --shadow:0 1px 2px rgba(7,11,22,.06),0 12px 40px -12px rgba(7,11,22,.18);
+  --serif:"Instrument Serif",Georgia,serif; --sans:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:var(--sans);color:var(--text);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img,svg{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.serif{font-family:var(--serif);font-weight:400;font-style:italic;letter-spacing:-.01em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+.eyebrow::before{content:"";width:18px;height:2px;background:currentColor;border-radius:2px}
+h1,h2,h3{letter-spacing:-.025em;line-height:1.08;font-weight:800}
+h2{font-size:clamp(32px,4.6vw,52px)}
+h3{font-size:20px;letter-spacing:-.015em;line-height:1.25}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:640px}
+section{padding:110px 0}
+.sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:52px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;font-weight:700;font-size:15.5px;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn svg{width:18px;height:18px;transition:transform .2s}
+.btn:hover svg{transform:translateX(3px)}
+.btn-primary{background:var(--cobalt);color:#fff;box-shadow:0 10px 30px -8px rgba(76,111,255,.65)}
+.btn-primary:hover{background:var(--cobalt2);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.16)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--ink3)}
+.btn-line{border:1.5px solid #D5DBE8;color:var(--text);background:#fff}
+.btn-line:hover{border-color:var(--cobalt);color:var(--cobalt)}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(7,11,22,.78);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+.logo{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.logo svg{width:32px;height:32px}
+.nav-links{display:flex;gap:30px;font-size:14.5px;font-weight:600;color:#C9D2E6}
+.nav-links a:hover{color:#fff}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.nav .btn{padding:11px 18px;font-size:14px}
+.burger{display:none;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);color:#fff;align-items:center;justify-content:center}
+.mobile-menu{display:none;position:fixed;inset:74px 0 auto;background:rgba(7,11,22,.97);backdrop-filter:blur(16px);padding:16px 24px 28px;z-index:49;border-bottom:1px solid var(--line)}
+.mobile-menu a{display:block;color:#E6EBF7;font-weight:700;font-size:18px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mobile-menu .btn{margin-top:18px;width:100%;justify-content:center}
+.mobile-menu.open{display:block}
+
+/* hero */
+.hero{position:relative;background:var(--ink);color:#fff;padding:160px 0 110px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;background:
+ radial-gradient(40% 50% at 78% 30%,rgba(76,111,255,.38),transparent 70%),
+ radial-gradient(30% 40% at 18% 80%,rgba(52,224,176,.18),transparent 70%),
+ radial-gradient(25% 30% at 60% 90%,rgba(76,111,255,.18),transparent 70%);animation:drift 18s ease-in-out infinite alternate;pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(70% 60% at 50% 40%,#000 30%,transparent 80%);opacity:.5;pointer-events:none}
+@keyframes drift{to{transform:translate3d(-4%,4%,0) scale(1.08)}}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-size:13.5px;font-weight:600;color:#D9E0F0}
+.pill b{background:var(--mint);color:var(--ink);padding:3px 9px;border-radius:999px;font-size:11.5px;letter-spacing:.04em}
+.hero h1{font-size:clamp(44px,7vw,84px);margin:26px 0 22px;letter-spacing:-.04em;line-height:1}
+.hero h1 .serif{color:var(--mint);font-size:1.08em}
+.hero p.lead{color:#B4BFD6;font-size:clamp(17px,1.7vw,20px)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:44px;font-size:13.5px;color:#9AA6C0;font-weight:600}
+.trust span{display:flex;align-items:center;gap:8px}
+.trust svg{width:16px;height:16px;color:var(--mint)}
+
+/* hero card */
+.panel{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:26px;backdrop-filter:blur(10px);box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.panel-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.panel-top small{color:#8C98B4;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.dot-live{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--mint)}
+.dot-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(52,224,176,.2);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(52,224,176,0)}}
+.ring-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.ring{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:16px 10px;text-align:center}
+.ring svg{width:74px;height:74px;margin:0 auto 8px}
+.ring circle.bg{stroke:rgba(255,255,255,.08)}
+.ring circle.fg{stroke-dasharray:201;stroke-dashoffset:201;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1);transform:rotate(-90deg);transform-origin:50% 50%}
+.ring b{display:block;font-size:13px;color:#fff}
+.ring span{font-size:11.5px;color:#8C98B4}
+.checklist{display:flex;flex-direction:column;gap:9px}
+.check{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:13.5px;color:#D3DAEA;font-weight:600}
+.check i{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-style:normal;font-size:12px;flex:none}
+.check .ok{background:rgba(52,224,176,.16);color:var(--mint)}
+.check .wip{background:rgba(255,181,71,.15);color:var(--amber)}
+.check em{margin-left:auto;font-style:normal;font-size:11.5px;color:#8C98B4}
+.panel-note{margin-top:14px;font-size:11.5px;color:#6F7B97;text-align:right}
+
+/* headline services */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.feature{position:relative;border-radius:28px;padding:42px;overflow:hidden;min-height:100%;display:flex;flex-direction:column}
+.feature.iso{background:#fff;box-shadow:var(--shadow);border:1px solid #E6EAF2}
+.feature.ms{background:var(--ink);color:#fff}
+.feature.ms::before{content:"";position:absolute;width:420px;height:420px;right:-140px;top:-160px;background:radial-gradient(circle,rgba(76,111,255,.45),transparent 65%)}
+.feature .tag{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cobalt);margin-bottom:18px;position:relative}
+.feature.ms .tag{color:var(--mint)}
+.feature h3{font-size:clamp(28px,3vw,38px);letter-spacing:-.03em;margin-bottom:14px;position:relative}
+.feature p{color:var(--muted);position:relative}
+.feature.ms p{color:#AEB9D1}
+.std-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 18px}
+.std-tabs button{padding:9px 15px;border-radius:999px;border:1.5px solid #DCE2EE;font-weight:700;font-size:14px;transition:all .2s}
+.std-tabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.std-panel{background:var(--paper);border-radius:16px;padding:22px;min-height:150px}
+.std-panel h4{font-size:17px;margin-bottom:6px}
+.std-panel p{font-size:15px}
+.std-panel ul{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.std-panel li{font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;background:#fff;color:#3A4560;border:1px solid #E3E8F1}
+.feature .ffoot{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:relative}
+.ms-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:28px 0 0;position:relative}
+.ms-item{display:flex;gap:11px;align-items:flex-start;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:background .2s,border-color .2s}
+.ms-item:hover{background:rgba(76,111,255,.12);border-color:rgba(76,111,255,.4)}
+.ms-item svg{width:20px;height:20px;flex:none;color:var(--mint);margin-top:2px}
+.ms-item b{display:block;font-size:14px;line-height:1.3}
+.ms-item span{font-size:12.5px;color:#8C98B4;line-height:1.35;display:block;margin-top:2px}
+
+.incl{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:22px}
+.incl li{display:flex;gap:9px;font-size:14.5px;font-weight:600;color:#2B3550;line-height:1.35}
+.incl svg{width:17px;height:17px;color:#14B88A;flex:none;margin-top:1px}
+@media (max-width:640px){.incl{grid-template-columns:1fr}}
+/* bridge */
+.bridge{background:linear-gradient(135deg,#EEF2FF,#E9FBF5);border-radius:28px;padding:44px;display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:center;margin-top:22px;border:1px solid #DEE5F7}
+.bridge h3{font-size:clamp(24px,2.6vw,32px);letter-spacing:-.03em}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.flow div{background:#fff;border-radius:14px;padding:14px 16px;font-weight:700;font-size:14px;box-shadow:var(--shadow);flex:1;min-width:130px}
+.flow div small{display:block;color:var(--muted);font-weight:600;font-size:12px}
+.flow .arr{flex:none;min-width:0;background:none;box-shadow:none;padding:0;color:var(--cobalt);font-size:20px}
+
+/* more services */
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:#fff;border:1px solid #E6EAF2;border-radius:var(--r);padding:28px;transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#CDD6EA}
+.ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;margin-bottom:20px;background:#EEF2FF;color:var(--cobalt)}
+.ico svg{width:24px;height:24px}
+.card p{color:var(--muted);font-size:15px;margin:10px 0 18px}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:22px}
+.card li{font-size:14px;display:flex;gap:9px;color:#2B3550}
+.card li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);margin-top:9px;flex:none}
+.card a.more{margin-top:auto;font-weight:700;font-size:14.5px;color:var(--cobalt);display:inline-flex;gap:6px;align-items:center}
+
+/* apps */
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.app{background:#fff;border:1px solid #E6EAF2;border-radius:22px;padding:30px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.app:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.app.feat{background:var(--ink);color:#fff;border-color:var(--ink);position:relative;overflow:hidden}
+.app.feat::before{content:"";position:absolute;width:320px;height:320px;right:-120px;top:-140px;background:radial-gradient(circle,rgba(52,224,176,.3),transparent 65%)}
+.app.feat .ico{background:rgba(52,224,176,.14);color:var(--mint);position:relative}
+.app.feat p,.app.feat li{color:#AEB9D1}
+.app.feat .more{color:var(--mint)}
+.app-tag{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--cobalt);margin-bottom:8px;position:relative}
+.app.feat .app-tag{color:var(--mint)}
+.app h3{font-size:22px;position:relative}
+.app p{color:var(--muted);font-size:15px;margin:10px 0 16px;position:relative}
+.app ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;position:relative}
+.app li{font-size:14px;display:flex;gap:9px;color:#2B3550;line-height:1.45}
+.app li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);margin-top:8px;flex:none}
+.app .more{margin-top:auto;font-weight:700;font-size:14.5px;color:var(--cobalt);display:inline-flex;gap:6px;align-items:center;position:relative}
+.apps-also{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:22px;font-size:14px;color:var(--muted);font-weight:600}
+.apps-also b{background:#fff;border:1px solid #E3E8F1;padding:7px 12px;border-radius:999px;color:#2B3550;font-size:13.5px}
+.cards4{grid-template-columns:repeat(3,1fr)!important}
+@media (max-width:1020px){.apps{grid-template-columns:1fr}}
+@media (max-width:640px){.cards4{grid-template-columns:1fr!important}}
+
+/* finder */
+.finder-sec{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.finder-sec::before{content:"";position:absolute;width:700px;height:700px;left:-260px;bottom:-380px;background:radial-gradient(circle,rgba(52,224,176,.18),transparent 65%)}
+.finder-sec .lead{color:#AEB9D1}
+.finder-sec .eyebrow{color:var(--mint)}
+.finder{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:24px}
+.q{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:22px;padding:30px}
+.q-step{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8C98B4;margin-bottom:10px}
+.q h3{font-size:22px;margin-bottom:18px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.opt{text-align:left;padding:15px 16px;border-radius:14px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);font-weight:700;font-size:14.5px;transition:all .18s;line-height:1.3}
+.opt small{display:block;font-weight:500;color:#8C98B4;font-size:12.5px;margin-top:3px}
+.opt:hover{border-color:rgba(255,255,255,.3)}
+.opt[aria-pressed="true"]{border-color:var(--mint);background:rgba(52,224,176,.1)}
+.opt[aria-pressed="true"] small{color:#B9F3E2}
+.result{background:#fff;color:var(--text);border-radius:22px;padding:30px;position:sticky;top:100px;align-self:start}
+.result .q-step{color:var(--cobalt)}
+.result h3{font-size:26px;letter-spacing:-.025em;margin-bottom:10px}
+.result p{color:var(--muted);font-size:15px}
+.result ol{list-style:none;counter-reset:s;margin:20px 0 24px;display:flex;flex-direction:column;gap:10px}
+.result li{counter-increment:s;display:flex;gap:12px;font-size:14.5px;font-weight:600;align-items:flex-start}
+.result li::before{content:counter(s);width:24px;height:24px;border-radius:8px;background:#EEF2FF;color:var(--cobalt);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.result .price{font-size:13.5px;color:var(--muted);margin-bottom:18px}
+.result .price b{color:var(--text);font-size:18px}
+.result .btn{width:100%;justify-content:center}
+.result.empty h3{color:#9AA6C0}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
+.steps::before{content:"";position:absolute;top:27px;left:6%;right:6%;height:2px;background:linear-gradient(90deg,var(--cobalt),var(--mint));opacity:.35}
+.step{position:relative}
+.step .n{width:56px;height:56px;border-radius:18px;background:#fff;border:1.5px solid #DCE2EE;display:grid;place-items:center;font-weight:800;font-size:18px;color:var(--cobalt);margin-bottom:22px;box-shadow:var(--shadow)}
+.step p{color:var(--muted);font-size:15px;margin-top:8px}
+
+/* pricing */
+.ptabs{display:inline-flex;flex-wrap:wrap;background:#fff;border:1px solid #E3E8F1;border-radius:999px;padding:5px;gap:4px;margin-bottom:32px}
+.ptabs button{padding:10px 18px;border-radius:999px;font-weight:700;font-size:14.5px;color:var(--muted);transition:all .2s}
+.ptabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.plan{background:#fff;border:1px solid #E6EAF2;border-radius:var(--r);padding:28px;display:flex;flex-direction:column;position:relative}
+.plan.hot{border:2px solid var(--cobalt);box-shadow:0 20px 50px -20px rgba(76,111,255,.45)}
+.plan .badge{position:absolute;top:-12px;left:24px;background:var(--cobalt);color:#fff;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
+.plan h3{font-size:19px}
+.plan .from{margin:14px 0 4px;font-size:13px;color:var(--muted);font-weight:600}
+.plan .amt{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.plan .amt small{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:0}
+.plan p{color:var(--muted);font-size:14.5px;margin:14px 0 20px}
+.plan .btn{margin-top:auto;justify-content:center}
+.fine{font-size:13px;color:var(--muted);margin-top:22px}
+
+/* about */
+.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.about-card{background:var(--ink);color:#fff;border-radius:28px;padding:40px;position:relative;overflow:hidden}
+.about-card::after{content:"";position:absolute;width:300px;height:300px;right:-100px;bottom:-120px;background:radial-gradient(circle,rgba(76,111,255,.5),transparent 65%)}
+.about-card .big{font-family:var(--serif);font-style:italic;font-size:64px;line-height:1;color:var(--mint)}
+.about-card .meaning{margin-top:18px;color:#AEB9D1;font-size:15px;position:relative;z-index:1}
+.about-card .meaning b{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;position:relative;z-index:1}
+.stats div{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:16px}
+.stats b{display:block;font-size:26px;letter-spacing:-.02em}
+.stats span{font-size:12.5px;color:#9AA6C0;line-height:1.3;display:block}
+.principles{display:flex;flex-direction:column;gap:18px;margin-top:30px}
+.principle{display:flex;gap:16px}
+.principle .ico{margin:0;flex:none;width:44px;height:44px}
+.principle p{color:var(--muted);font-size:15px;margin-top:3px}
+
+/* faq */
+.faq{max-width:820px}
+.faq details{background:#fff;border:1px solid #E6EAF2;border-radius:16px;margin-bottom:10px;transition:border-color .2s}
+.faq details[open]{border-color:#C9D3EA}
+.faq summary{list-style:none;cursor:pointer;padding:20px 24px;font-weight:700;font-size:16.5px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:24px;font-weight:500;color:var(--cobalt);transition:transform .2s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 24px 22px;color:var(--muted);font-size:15.5px}
+
+/* contact */
+.contact-sec{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.contact-sec::before{content:"";position:absolute;width:800px;height:800px;right:-300px;top:-300px;background:radial-gradient(circle,rgba(76,111,255,.3),transparent 65%)}
+.contact{position:relative;display:grid;grid-template-columns:.85fr 1.15fr;gap:56px}
+.contact .eyebrow{color:var(--mint)}
+.contact .lead{color:#AEB9D1}
+.assure{display:flex;flex-direction:column;gap:14px;margin-top:32px}
+.assure div{display:flex;gap:12px;align-items:flex-start;color:#D3DAEA;font-weight:600;font-size:15px}
+.assure svg{width:20px;height:20px;color:var(--mint);flex:none;margin-top:2px}
+.direct{margin-top:34px;padding-top:26px;border-top:1px solid var(--line);font-size:14.5px;color:#9AA6C0}
+.direct a{color:#fff;font-weight:700}
+.form{background:#fff;color:var(--text);border-radius:26px;padding:34px;box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+.progress{display:flex;gap:6px;margin-bottom:26px}
+.progress span{flex:1;height:5px;border-radius:5px;background:#E6EAF2;transition:background .3s}
+.progress span.on{background:var(--cobalt)}
+.fstep{display:none}
+.fstep.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.fstep h3{font-size:22px;margin-bottom:6px}
+.fstep > p{color:var(--muted);font-size:14.5px;margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chip{padding:10px 15px;border-radius:999px;border:1.5px solid #DCE2EE;font-weight:700;font-size:14px;transition:all .15s}
+.chip[aria-pressed="true"]{background:#EEF2FF;border-color:var(--cobalt);color:var(--cobalt)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:700;color:#3A4560}
+.field input,.field select,.field textarea{font:inherit;font-size:15.5px;padding:13px 14px;border-radius:12px;border:1.5px solid #DCE2EE;background:#FBFCFE;color:var(--text);transition:border-color .2s,box-shadow .2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cobalt);box-shadow:0 0 0 4px rgba(76,111,255,.14)}
+.field textarea{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fnav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.err{color:#D93A3A;font-size:13px;font-weight:600;min-height:18px;margin-top:4px}
+.done{text-align:center;padding:10px 0}
+.done .tick{width:64px;height:64px;border-radius:50%;background:rgba(52,224,176,.16);color:#14B88A;display:grid;place-items:center;margin:0 auto 18px}
+.done .tick svg{width:30px;height:30px}
+.summary{background:var(--paper);border-radius:14px;padding:16px;text-align:left;font-size:13.5px;white-space:pre-wrap;margin:18px 0;color:#2B3550;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;max-height:220px;overflow:auto}
+.done .acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+footer{background:#04070F;color:#8C98B4;padding:56px 0 40px;font-size:14px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot h5{color:#fff;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.foot a{display:block;padding:4px 0}
+.foot a:hover{color:#fff}
+.legal{border-top:1px solid var(--line);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px}
+
+/* sticky mobile CTA */
+.mcta{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:40;transform:translateY(120%);transition:transform .3s}
+.mcta.show{transform:none}
+.mcta .btn{width:100%;justify-content:center;box-shadow:0 14px 40px -10px rgba(7,11,22,.6)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.hero::before{animation:none}*{transition:none!important}}
+
+@media (max-width:1020px){
+  .nav-links,.nav-cta .btn-ghost{display:none}
+  .burger{display:flex}
+  .hero .wrap,.duo,.bridge,.finder,.about,.contact{grid-template-columns:1fr}
+  .cards4{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps::before{display:none}
+  .foot{grid-template-columns:1fr 1fr}
+  .result{position:static}
+}
+@media (max-width:640px){
+  section{padding:76px 0}
+  .wrap{padding:0 18px}
+  .hero{padding:124px 0 80px}
+  .nav-cta .btn-primary{display:none}
+  .feature,.bridge{padding:28px}
+  .ms-grid,.opts,.cards4,.steps,.row2{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .q,.result,.form{padding:24px}
+  .mcta{display:block}
+  .hero-ctas .btn{flex:1;justify-content:center}
+  .foot{grid-template-columns:1fr}
+}
+
+/* ===== v2.2 premium layer: shaded surfaces + expensive buttons ===== */
+body::before{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.045;mix-blend-mode:multiply;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body{background:linear-gradient(180deg,#F7F8FC 0%,#F1F4FA 100%)}
+
+/* buttons */
+.btn{position:relative;overflow:hidden;isolation:isolate;letter-spacing:-.005em;padding:15px 26px;border:1px solid transparent}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.btn:hover::after{transform:translateX(120%)}
+.btn-primary{color:#fff;background:linear-gradient(180deg,#7C95FF 0%,#5676FF 38%,#3D5AF1 72%,#2F47D6 100%) padding-box,linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.05)) border-box;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 6px rgba(20,30,110,.35),0 1px 2px rgba(7,11,22,.35),0 14px 34px -12px rgba(76,111,255,.85),0 0 0 1px rgba(47,71,214,.5)}
+.btn-primary:hover{background:linear-gradient(180deg,#8AA1FF 0%,#6280FF 38%,#4664F5 72%,#3550DE 100%) padding-box,linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,.1)) border-box;transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 6px rgba(20,30,110,.35),0 2px 4px rgba(7,11,22,.3),0 20px 44px -14px rgba(76,111,255,.95),0 0 0 1px rgba(47,71,214,.5)}
+.btn-primary svg,.btn-dark svg{width:24px;height:24px;padding:4px;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,.1));box-shadow:inset 0 1px 0 rgba(255,255,255,.35);margin-right:-10px}
+.btn-dark{color:#fff;background:linear-gradient(180deg,#2B3756 0%,#141D35 45%,#0A1022 100%) padding-box,linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.02)) border-box;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 2px rgba(7,11,22,.4),0 14px 30px -14px rgba(7,11,22,.8)}
+.btn-dark:hover{background:linear-gradient(180deg,#35425F 0%,#1A2440 45%,#0D1428 100%) padding-box,linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.04)) border-box;transform:translateY(-1px)}
+.btn-ghost{color:#fff;background:linear-gradient(180deg,rgba(140,165,255,.14),rgba(255,255,255,.015)) padding-box,linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.05)) border-box;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 30px -14px rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-ghost:hover{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.06)) padding-box,linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.1)) border-box}
+.btn-line{color:var(--text);background:linear-gradient(180deg,#FFFFFF,#F2F5FB) padding-box,linear-gradient(180deg,#E3E8F2,#B8C2D8) border-box;
+ box-shadow:inset 0 1px 0 #fff,0 1px 2px rgba(7,11,22,.06),0 8px 20px -12px rgba(7,11,22,.25)}
+.btn-line:hover{color:var(--cobalt2);background:linear-gradient(180deg,#FFFFFF,#EEF2FF) padding-box,linear-gradient(180deg,#C9D4FF,#7F95F5) border-box;transform:translateY(-1px)}
+.btn-line::after{background:linear-gradient(115deg,transparent 30%,rgba(76,111,255,.12) 50%,transparent 70%)}
+.nav .btn{padding:11px 20px}
+.nav .btn-primary svg{display:none}
+
+/* shaded surfaces */
+.hero{background:radial-gradient(120% 80% at 50% 0%,#101A36 0%,#0A1022 45%,#060913 100%)}
+.panel{background:linear-gradient(160deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.02) 100%) padding-box,linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.04) 50%,rgba(76,111,255,.35)) border-box;border:1px solid transparent}
+.pill b,.plan .badge,.ptabs button[aria-selected="true"],.std-tabs button[aria-selected="true"]{background:linear-gradient(180deg,#2B3756,#0A1022);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.pill b{background:linear-gradient(135deg,#6BF0C9,#20C796);color:#05241B}
+.plan .badge{background:linear-gradient(90deg,#5676FF,#34C6E0)}
+.hero h1 .serif{background:linear-gradient(95deg,#5EF0C4 0%,#34E0B0 35%,#8FA8FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
+.sec-head h2 .serif,.about h2 .serif,.bridge h3 .serif{background:linear-gradient(95deg,#3553E6,#5B6CF5 45%,#13A97F);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.finder-sec .sec-head h2 .serif{background:linear-gradient(95deg,#5EF0C4,#8FA8FF);-webkit-background-clip:text;background-clip:text}
+.eyebrow::before{width:22px;background:linear-gradient(90deg,currentColor,transparent)}
+.eyebrow{background:linear-gradient(90deg,#3553E6,#5B7CFF);-webkit-background-clip:text;background-clip:text}
+
+.feature.iso,.card,.app,.plan,.faq details,.form{background:linear-gradient(180deg,#FFFFFF 0%,#F8FAFE 100%) padding-box,linear-gradient(180deg,#EDF0F7,#D3DAE8) border-box;border:1px solid transparent}
+.feature.iso{box-shadow:0 1px 2px rgba(7,11,22,.04),0 30px 60px -30px rgba(30,45,90,.25)}
+.feature.ms{background:radial-gradient(90% 60% at 100% 0%,rgba(76,111,255,.35),transparent 60%),linear-gradient(165deg,#17213F 0%,#0C1329 50%,#070B16 100%)}
+.feature.ms::before{display:none}
+.ms-item{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.015)) padding-box,linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.03)) border-box;border:1px solid transparent}
+.std-panel{background:linear-gradient(180deg,#F3F6FC,#EAEFF8)}
+.ico{background:linear-gradient(145deg,#EEF2FF 0%,#DCE4FF 55%,#D6F6EC 100%);box-shadow:inset 0 1px 0 #fff,0 6px 16px -8px rgba(76,111,255,.45)}
+.app.feat{background:radial-gradient(80% 50% at 100% 0%,rgba(52,224,176,.25),transparent 60%),linear-gradient(165deg,#132544 0%,#0B1328 55%,#070B16 100%);border-color:transparent}
+.app.feat::before{display:none}
+.app.feat .ico{background:linear-gradient(145deg,rgba(52,224,176,.28),rgba(76,111,255,.18));box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.bridge{background:linear-gradient(120deg,#E9EEFF 0%,#EEF1FB 45%,#E3F8F1 100%) padding-box,linear-gradient(120deg,#CFD9FF,#E1E6F2,#BDEEDD) border-box;border:1px solid transparent}
+.flow div{background:linear-gradient(180deg,#fff,#F6F8FD)}
+.finder-sec{background:radial-gradient(70% 60% at 0% 100%,rgba(52,224,176,.16),transparent 60%),radial-gradient(60% 50% at 100% 0%,rgba(76,111,255,.22),transparent 60%),linear-gradient(180deg,#0B1226,#070B16)}
+.finder-sec::before{display:none}
+.q{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)) padding-box,linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.03)) border-box;border:1px solid transparent}
+.opt{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02))}
+.opt[aria-pressed="true"]{background:linear-gradient(180deg,rgba(52,224,176,.22),rgba(52,224,176,.06));box-shadow:0 0 0 1px rgba(52,224,176,.4),0 10px 30px -12px rgba(52,224,176,.5)}
+.result{background:linear-gradient(180deg,#FFFFFF,#F2F5FC);box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.result li::before,.step .n{background:linear-gradient(145deg,#EEF2FF,#DCE4FF)}
+.step .n{background:linear-gradient(180deg,#fff,#EEF2FB) padding-box,linear-gradient(180deg,#E3E8F2,#AEBBDA) border-box;border:1.5px solid transparent}
+#pricing{background:linear-gradient(180deg,#E9EDF6 0%,#F1F4FA 100%)!important}
+.ptabs{background:linear-gradient(180deg,#fff,#F3F5FA);box-shadow:inset 0 1px 0 #fff,0 6px 18px -10px rgba(7,11,22,.2)}
+.plan.hot{background:linear-gradient(180deg,#FFFFFF,#F2F5FF) padding-box,linear-gradient(160deg,#7C95FF,#34C6E0) border-box;border:2px solid transparent}
+.about-card{background:radial-gradient(70% 60% at 100% 100%,rgba(76,111,255,.4),transparent 60%),linear-gradient(160deg,#17213F,#070B16)}
+.about-card::after{display:none}
+.about-card .big{background:linear-gradient(95deg,#5EF0C4,#8FA8FF);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.1em}
+.stats div{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
+.contact-sec{background:radial-gradient(60% 60% at 100% 0%,rgba(76,111,255,.3),transparent 60%),radial-gradient(50% 50% at 0% 100%,rgba(52,224,176,.12),transparent 60%),linear-gradient(180deg,#0B1226,#060913)}
+.contact-sec::before{display:none}
+.progress span.on{background:linear-gradient(90deg,#4C6FFF,#34C6E0)}
+.chip{background:linear-gradient(180deg,#fff,#F3F5FA)}
+.chip[aria-pressed="true"]{background:linear-gradient(180deg,#F1F4FF,#E0E7FF);border-color:#7F95F5;color:var(--cobalt2);box-shadow:0 6px 16px -10px rgba(76,111,255,.6)}
+.field input,.field select,.field textarea{background:linear-gradient(180deg,#FBFCFE,#F5F7FB)}
+footer{background:linear-gradient(180deg,#060913,#03050B)}
+.apps-also b{background:linear-gradient(180deg,#fff,#F3F5FA)}
+
+/* ===== v2.3 signature button: leaf corners + arrow compartment ===== */
+.btn{border-radius:16px 3px 16px 3px;height:54px;padding:0 0 0 24px;gap:0;font-size:15px;letter-spacing:.005em}
+.btn:not(:has(svg)){padding:0 24px}
+.btn svg,.btn-primary svg,.btn-dark svg,.btn-ghost svg,.btn-line svg{width:54px;height:54px;padding:18px;margin:0 0 0 20px;border-radius:0 3px 16px 0;
+ background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));box-shadow:inset 1px 0 0 rgba(255,255,255,.22);transition:background .25s}
+.btn-line svg{background:linear-gradient(180deg,#EEF2FF,#E1E8FF);box-shadow:inset 1px 0 0 #C9D4FF;color:var(--cobalt2)}
+.btn:hover svg{transform:none;background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.08))}
+.btn svg use{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn:hover svg use{transform:translateX(3px)}
+.btn-primary::before,.btn-dark::before{content:"";position:absolute;left:0;top:0;width:14px;height:14px;border-radius:16px 0 0 0;
+ background:linear-gradient(135deg,rgba(94,240,196,.95),rgba(94,240,196,0) 60%);z-index:1;pointer-events:none}
+.nav .btn{height:44px;padding:0 20px;border-radius:13px 3px 13px 3px;font-size:14px}
+.result .btn,.mobile-menu .btn,.mcta .btn,.plan .btn{justify-content:space-between}
+.plan .btn{justify-content:center}
+@media (max-width:640px){.hero-ctas .btn{justify-content:space-between}}
+.btn-ghost{background:linear-gradient(180deg,rgba(92,120,255,.22),rgba(40,60,160,.06)) padding-box,linear-gradient(160deg,rgba(150,175,255,.55),rgba(255,255,255,.06) 60%,rgba(94,240,196,.35)) border-box}
+.btn-ghost:hover{background:linear-gradient(180deg,rgba(92,120,255,.32),rgba(40,60,160,.1)) padding-box,linear-gradient(160deg,rgba(170,190,255,.7),rgba(255,255,255,.1) 60%,rgba(94,240,196,.5)) border-box}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9z"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
+    <symbol id="phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="device" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3"/></symbol>
+    <symbol id="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></symbol>
+    <symbol id="server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol>
+    <symbol id="chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></symbol>
+    <symbol id="headset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
+    <symbol id="grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+    <symbol id="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-7 4 14 3-9 2 2h5"/></symbol>
+    <symbol id="logo" viewBox="0 0 40 40"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4C6FFF"/><stop offset="1" stop-color="#34E0B0"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="url(#lg)"/><path d="M12 29V11l16 18V11" fill="none" stroke="#070B16" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 20h22" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Normaris home"><svg><use href="#logo"/></svg>Normaris</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#microsoft">Microsoft</a>
+      <a href="#iso">ISO</a>
+      <a href="#apps">Apps</a>
+      <a href="#services">More</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#finder" class="btn btn-ghost">Find your fit</a>
+      <a href="#contact" class="btn btn-primary">Book a free call</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mmenu">
+  <a href="#microsoft">Microsoft services</a>
+  <a href="#iso">ISO certification</a>
+  <a href="#apps">Application development</a>
+  <a href="#services">More services</a>
+  <a href="#finder">Find your starting point</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact" class="btn btn-primary">Book a free call</a>
+</div>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pill rv"><b>NEW</b> Microsoft + ISO certification, under one roof</span>
+      <h1 class="rv">A new standard in <span class="serif">compliance.</span></h1>
+      <p class="lead rv">We get UK businesses running Microsoft properly, then ISO certified: secure, audit-ready and built to pass, not just to work.</p>
+      <div class="hero-ctas rv">
+        <a href="#finder" class="btn btn-primary">Find your starting point <svg><use href="#arrow"/></svg></a>
+        <a href="#contact" class="btn btn-ghost">Book a free 20-min call</a>
+      </div>
+      <div class="trust rv">
+        <span><svg><use href="#tick"/></svg>Every Microsoft 365 service</span>
+        <span><svg><use href="#tick"/></svg>ISO 9001 · 27001 · 14001 · 45001</span>
+        <span><svg><use href="#tick"/></svg>15 years in operations &amp; compliance</span>
+        <span><svg><use href="#tick"/></svg>Fixed-price packages</span>
+      </div>
+    </div>
+    <div class="panel rv" aria-label="Example readiness view">
+      <div class="panel-top"><small>Audit readiness</small><span class="dot-live">Live</span></div>
+      <div class="ring-row">
+        <div class="ring"><svg viewBox="0 0 74 74"><circle class="bg" cx="37" cy="37" r="32" fill="none" stroke-width="7"/><circle class="fg" data-v="100" cx="37" cy="37" r="32" fill="none" stroke="#4C6FFF" stroke-width="7" stroke-linecap="round"/><text x="37" y="42" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" font-family="Manrope">100%</text></svg><b>Microsoft 365</b><span>Secure score</span></div>
+        <div class="ring"><svg viewBox="0 0 74 74"><circle class="bg" cx="37" cy="37" r="32" fill="none" stroke-width="7"/><circle class="fg" data-v="92" cx="37" cy="37" r="32" fill="none" stroke="#34E0B0" stroke-width="7" stroke-linecap="round"/><text x="37" y="42" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" font-family="Manrope">92%</text></svg><b>ISO 27001</b><span>Annex A</span></div>
+        <div class="ring"><svg viewBox="0 0 74 74"><circle class="bg" cx="37" cy="37" r="32" fill="none" stroke-width="7"/><circle class="fg" data-v="78" cx="37" cy="37" r="32" fill="none" stroke="#FFB547" stroke-width="7" stroke-linecap="round"/><text x="37" y="42" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" font-family="Manrope">78%</text></svg><b>ISO 9001</b><span>Clauses 4–10</span></div>
+      </div>
+      <div class="checklist">
+        <div class="check"><i class="ok">✓</i>MFA &amp; Conditional Access enforced<em>Entra ID</em></div>
+        <div class="check"><i class="ok">✓</i>Devices managed and encrypted<em>Intune</em></div>
+        <div class="check"><i class="ok">✓</i>Retention &amp; DLP policies live<em>Purview</em></div>
+        <div class="check"><i class="wip">•</i>Internal audit scheduled<em>ISO 9001</em></div>
+      </div>
+      <div class="panel-note">Illustrative example</div>
+    </div>
+  </div>
+</section>
+
+<!-- HEADLINE SERVICES -->
+<section id="headline">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Headline services</span>
+      <h2>Secured. Certified. <span class="serif">Sorted.</span></h2>
+      <p class="lead">Two things most growing businesses need and few providers do together: a Microsoft estate set up properly, and the ISO certification it helps you prove.</p>
+    </div>
+    <div class="duo">
+      <article class="feature ms rv" id="microsoft">
+        <div class="tag">Microsoft services</div>
+        <h3>Every Microsoft service, set up to pass an audit.</h3>
+        <p>From a first tenant to Copilot, we plan, build, secure, license and manage the whole Microsoft stack.</p>
+        <div class="ms-grid">
+          <div class="ms-item"><svg><use href="#cloud"/></svg><div><b>Microsoft 365</b><span>Setup, takeover &amp; migration</span></div></div>
+          <div class="ms-item"><svg><use href="#mail"/></svg><div><b>Exchange Online</b><span>Email, domains, DMARC/DKIM</span></div></div>
+          <div class="ms-item"><svg><use href="#users"/></svg><div><b>Teams</b><span>Structure, governance, adoption</span></div></div>
+          <div class="ms-item"><svg><use href="#phone"/></svg><div><b>Teams Phone</b><span>Calling, numbers, call recording</span></div></div>
+          <div class="ms-item"><svg><use href="#folder"/></svg><div><b>SharePoint &amp; OneDrive</b><span>Sites, permissions, file migration</span></div></div>
+          <div class="ms-item"><svg><use href="#key"/></svg><div><b>Entra ID</b><span>Identity, MFA, Conditional Access</span></div></div>
+          <div class="ms-item"><svg><use href="#device"/></svg><div><b>Intune</b><span>Device management &amp; Autopilot</span></div></div>
+          <div class="ms-item"><svg><use href="#shield"/></svg><div><b>Defender</b><span>Endpoint, email &amp; identity security</span></div></div>
+          <div class="ms-item"><svg><use href="#lock"/></svg><div><b>Purview</b><span>Retention, labels, DLP, eDiscovery</span></div></div>
+          <div class="ms-item"><svg><use href="#bolt"/></svg><div><b>Power Platform</b><span>Power Apps, Automate &amp; BI</span></div></div>
+          <div class="ms-item"><svg><use href="#spark"/></svg><div><b>Copilot</b><span>Readiness, data hygiene, rollout</span></div></div>
+          <div class="ms-item"><svg><use href="#server"/></svg><div><b>Azure</b><span>Virtual Desktop, backup, hosting</span></div></div>
+          <div class="ms-item"><svg><use href="#chart"/></svg><div><b>Dynamics 365</b><span>Business Central &amp; Sales</span></div></div>
+          <div class="ms-item"><svg><use href="#tag"/></svg><div><b>Licensing</b><span>Right-sized plans, one monthly bill</span></div></div>
+        </div>
+        <div class="ffoot">
+          <a href="#contact" class="btn btn-primary" data-pre="Microsoft services">Talk Microsoft <svg><use href="#arrow"/></svg></a>
+          <a href="#pricing" class="btn btn-ghost" data-tab="ms">See Microsoft pricing</a>
+        </div>
+      </article>
+
+      <article class="feature iso rv" id="iso">
+        <div class="tag">ISO certification</div>
+        <h3>Get certified first time, and stay certified.</h3>
+        <p>Gap analysis, full management-system build, internal audit and certification-body liaison, led by a consultant qualified across four standards.</p>
+        <div class="std-tabs" role="tablist" aria-label="ISO standards">
+          <button role="tab" aria-selected="true" data-std="27001">ISO 27001</button>
+          <button role="tab" aria-selected="false" data-std="9001">ISO 9001</button>
+          <button role="tab" aria-selected="false" data-std="14001">ISO 14001</button>
+          <button role="tab" aria-selected="false" data-std="45001">ISO 45001</button>
+        </div>
+        <div class="std-panel" id="stdPanel" role="tabpanel"></div>
+        <ul class="incl">
+          <li><svg><use href="#tick"/></svg>Gap analysis &amp; dated roadmap</li>
+          <li><svg><use href="#tick"/></svg>Policies, procedures &amp; risk register</li>
+          <li><svg><use href="#tick"/></svg>Staff training &amp; awareness</li>
+          <li><svg><use href="#tick"/></svg>Internal audit &amp; mock assessment</li>
+          <li><svg><use href="#tick"/></svg>Certification-body liaison</li>
+          <li><svg><use href="#tick"/></svg>Integrated systems: combine standards, save time</li>
+        </ul>
+        <div class="ffoot">
+          <a href="#contact" class="btn btn-dark" data-pre="ISO certification">Start with a gap analysis <svg><use href="#arrow"/></svg></a>
+          <a href="#pricing" class="btn btn-line" data-tab="iso">See ISO pricing</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="bridge rv">
+      <div>
+        <span class="eyebrow">Better together</span>
+        <h3 style="margin-top:12px">Your Microsoft setup becomes your ISO evidence.</h3>
+        <p class="lead" style="font-size:16px;margin-top:10px">Because one team does both, the controls we build in Microsoft 365 map straight onto ISO 27001 Annex A and Cyber Essentials. Less duplication, faster audits.</p>
+      </div>
+      <div class="flow">
+        <div>Secure Microsoft 365<small>Entra, Intune, Defender</small></div>
+        <span class="arr">→</span>
+        <div>Cyber Essentials<small>Controls in place</small></div>
+        <span class="arr">→</span>
+        <div>ISO 27001<small>Evidence ready</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP DEVELOPMENT -->
+<section id="apps" class="apps-sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Application development</span>
+      <h2>Systems built around <span class="serif">your rules.</span></h2>
+      <p class="lead">Custom applications on Microsoft 365, Power Platform and the web, for the processes off-the-shelf software gets wrong. Each one comes with an audit trail.</p>
+    </div>
+    <div class="apps">
+      <article class="app rv">
+        <div class="ico"><svg><use href="#users"/></svg></div>
+        <span class="app-tag">HR systems</span>
+        <h3>HR that runs itself</h3>
+        <p>People processes in one place, connected to Microsoft 365 and your existing payroll.</p>
+        <ul><li>Onboarding &amp; offboarding workflows</li><li>Right-to-work &amp; document checks</li><li>Absence, holiday &amp; approvals</li><li>Training, competency &amp; appraisals</li><li>Policy acknowledgement tracking</li></ul>
+        <a href="#contact" class="more" data-pre="HR systems">Discuss an HR system <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+      <article class="app feat rv">
+        <div class="ico"><svg><use href="#shield"/></svg></div>
+        <span class="app-tag">UK export control · ECJU</span>
+        <h3>Export compliance, under control</h3>
+        <p>Manage UK strategic export controls administered by the Export Control Joint Unit, with evidence ready for a compliance visit.</p>
+        <ul><li>Product classification register (UK Control List ratings)</li><li>SIEL &amp; OGEL licence tracking, conditions and expiry alerts</li><li>End-user &amp; sanctions screening workflows</li><li>Shipment checks before goods or technology leave</li><li>Record-keeping &amp; internal compliance programme</li></ul>
+        <a href="#contact" class="more" data-pre="Export compliance (ECJU)">Discuss export compliance <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+      <article class="app rv">
+        <div class="ico"><svg><use href="#key"/></svg></div>
+        <span class="app-tag">US-controlled items · EAR / ITAR</span>
+        <h3>US controls, tracked end to end</h3>
+        <p>Track US-origin goods, software and technology inside your business so re-exports and transfers stay within the rules.</p>
+        <ul><li>ECCN and USML classification records</li><li>US-origin content &amp; re-export tracking</li><li>Restricted-party screening</li><li>Access control for controlled technical data</li><li>Licence and authorisation register</li></ul>
+        <a href="#contact" class="more" data-pre="US controlled products (EAR/ITAR)">Discuss US controls <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+    </div>
+    <div class="apps-also rv">
+      <span>Also built to order:</span>
+      <b>Compliance &amp; audit apps</b><b>Approvals &amp; workflows</b><b>Client portals</b><b>Integrations &amp; APIs</b><b>Power BI reporting</b>
+    </div>
+  </div>
+</section>
+
+<!-- MORE SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Also from Normaris</span>
+      <h2>Everything compliance <span class="serif">touches.</span></h2>
+      <p class="lead">Built on the same standards, and on the Microsoft platform you already pay for.</p>
+    </div>
+    <div class="cards4">
+      <article class="card rv">
+        <div class="ico"><svg><use href="#headset"/></svg></div>
+        <h3>Call audit</h3>
+        <p>Independent QA and compliance review of recorded calls for contact centres and FCA-regulated firms.</p>
+        <ul><li>Consumer Duty &amp; vulnerability scoring</li><li>QA framework &amp; calibration</li><li>Monthly audit with Power BI trends</li></ul>
+        <a href="#contact" class="more" data-pre="Call audit">Enquire <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+      <article class="card rv">
+        <div class="ico"><svg><use href="#grid"/></svg></div>
+        <h3>Compliance platforms</h3>
+        <p>Your management system, built inside Microsoft 365. No new software to buy.</p>
+        <ul><li>Policy &amp; document control hub</li><li>Audit, non-conformance &amp; CAPA tracker</li><li>Training &amp; competency register</li></ul>
+        <a href="#contact" class="more" data-pre="Compliance platforms">Enquire <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+      <article class="card rv">
+        <div class="ico"><svg><use href="#wave"/></svg></div>
+        <h3>Hosted voice</h3>
+        <p>Cloud telephony for offices and contact centres, with compliant call recording built in.</p>
+        <ul><li>Teams Phone &amp; cloud numbers</li><li>Call recording &amp; retention</li><li>Queues, IVR &amp; reporting</li></ul>
+        <a href="#contact" class="more" data-pre="Hosted voice">Enquire <svg width="16" height="16"><use href="#arrow"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FINDER -->
+<section class="finder-sec" id="finder">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Find your starting point</span>
+      <h2>Two questions. <span class="serif">One clear next step.</span></h2>
+      <p class="lead">Tell us where you are and we'll show you the package that fits, with a starting price.</p>
+    </div>
+    <div class="finder">
+      <div class="q rv">
+        <div class="q-step">Question 1 of 2</div>
+        <h3>What's driving this?</h3>
+        <div class="opts" data-q="goal">
+          <button class="opt" data-v="secure">Our Microsoft setup isn't secure<small>Worried about breaches or audits</small></button>
+          <button class="opt" data-v="new">We're new to Microsoft 365<small>Moving email, files or phones</small></button>
+          <button class="opt" data-v="iso">A client or tender needs ISO<small>Certification is a must-have</small></button>
+          <button class="opt" data-v="calls">We need to prove call quality<small>Consumer Duty, QA, complaints</small></button>
+          <button class="opt" data-v="manual">Too much manual compliance work<small>Spreadsheets, paper, email chasing</small></button>
+          <button class="opt" data-v="ongoing">We want someone to own it<small>Ongoing support and reporting</small></button>
+          <button class="opt" data-v="export">We export controlled items<small>UK licences, EAR or ITAR</small></button>
+          <button class="opt" data-v="hr">Our HR runs on spreadsheets<small>Onboarding, absence, training</small></button>
+        </div>
+        <div class="q-step">Question 2 of 2</div>
+        <h3>How far along are you?</h3>
+        <div class="opts" data-q="stage">
+          <button class="opt" data-v="start">Starting from scratch<small>Little in place today</small></button>
+          <button class="opt" data-v="part">Partly there<small>Some policies or setup exist</small></button>
+          <button class="opt" data-v="nearly">Nearly there<small>Need a check before the audit</small></button>
+          <button class="opt" data-v="unsure">Not sure<small>That's what the call is for</small></button>
+        </div>
+      </div>
+      <aside class="result empty rv" id="result" aria-live="polite">
+        <div class="q-step">Your recommendation</div>
+        <h3 id="rTitle">Pick an answer to see your fit</h3>
+        <p id="rDesc">Your recommended package, what happens first, and a starting price will appear here.</p>
+        <ol id="rSteps"></ol>
+        <div class="price" id="rPrice"></div>
+        <a href="#contact" class="btn btn-primary" id="rCta">Book a free 20-min call <svg><use href="#arrow"/></svg></a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">How it works</span>
+      <h2>Becoming a client is <span class="serif">simple.</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="n">1</div><h3>Free 20-min call</h3><p>Tell us what you need. No sales script, no obligation.</p></div>
+      <div class="step rv"><div class="n">2</div><h3>Fixed-price proposal</h3><p>A clear scope, timeline and price. No surprises, no hourly creep.</p></div>
+      <div class="step rv"><div class="n">3</div><h3>We do the work</h3><p>One accountable lead from kick-off to sign-off, with progress you can see.</p></div>
+      <div class="step rv"><div class="n">4</div><h3>Stay compliant</h3><p>Optional managed plans keep certification live and Microsoft secure.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:#EDF0F7">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Packages &amp; pricing</span>
+      <h2>Clear prices. <span class="serif">Fixed scope.</span></h2>
+      <p class="lead">Starting prices for our most popular packages. Your proposal confirms the exact figure before any work starts.</p>
+    </div>
+    <div class="ptabs rv" role="tablist" aria-label="Pricing categories">
+      <button role="tab" aria-selected="true" data-p="ms">Microsoft</button>
+      <button role="tab" aria-selected="false" data-p="iso">ISO</button>
+      <button role="tab" aria-selected="false" data-p="calls">Call audit</button>
+      <button role="tab" aria-selected="false" data-p="plat">Platforms</button>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <p class="fine">All prices exclude VAT. Microsoft licences are billed at Microsoft list price. Application development and hosted voice are quoted per project.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap about">
+    <div class="about-card rv">
+      <div class="big">Normaris</div>
+      <p class="meaning">From the Latin <b>norma</b>, a standard, and <b>-aris</b>, “of”. Literally, <b>of the standard</b>. It's the bar we hold ourselves to, and the one we help you reach.</p>
+      <div class="stats">
+        <div><b>15</b><span>years in operations &amp; compliance</span></div>
+        <div><b>4</b><span>ISO standards qualified</span></div>
+        <div><b>1</b><span>accountable lead per project</span></div>
+      </div>
+    </div>
+    <div class="rv">
+      <span class="eyebrow">Why Normaris</span>
+      <h2 style="margin:14px 0 16px">Microsoft people who <span class="serif">speak compliance.</span></h2>
+      <p class="lead">Normaris was founded by Lee Waller after 15 years in operations and compliance. We work with UK businesses of 20–200 people, especially in financial services and contact centres, where getting it right isn't optional.</p>
+      <div class="principles">
+        <div class="principle"><div class="ico"><svg><use href="#shield"/></svg></div><div><h3>Built to pass, not just to work</h3><p>Every configuration is mapped to the standard it has to satisfy.</p></div></div>
+        <div class="principle"><div class="ico"><svg><use href="#tag"/></svg></div><div><h3>Fixed prices, plain English</h3><p>You know the scope and the cost before we start.</p></div></div>
+        <div class="principle"><div class="ico"><svg><use href="#users"/></svg></div><div><h3>Works alongside your IT</h3><p>Keep your current provider. We fill the security and compliance gap.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">FAQ</span>
+      <h2>Good <span class="serif">questions.</span></h2>
+    </div>
+    <div class="faq rv">
+      <details open><summary>Do you issue the ISO certificate?</summary><p>No, and you should be wary of anyone who says they do. An independent, UKAS-accredited certification body carries out the certification audit and issues the certificate. We prepare you for it, build the management system, run a mock audit and liaise with the certification body for you.</p></details>
+      <details><summary>How long does ISO certification take?</summary><p>It depends on your size, the standard and what you already have in place. The gap analysis gives you a realistic, dated roadmap before you commit to anything further.</p></details>
+      <details><summary>Can you supply our Microsoft licences?</summary><p>Yes. We can supply and manage Microsoft 365, Teams Phone, Copilot and other licences on one monthly bill, right-sized so you're not paying for seats or features you don't use.</p></details>
+      <details><summary>We already have an IT provider. Can we still work with you?</summary><p>Yes. Many clients keep their existing provider for day-to-day support and use us for security, compliance and projects. We'll work alongside them.</p></details>
+      <details><summary>Who do you work with?</summary><p>UK businesses of roughly 20–200 people, with a particular focus on financial services and contact centres. If you're outside that, get in touch anyway and we'll tell you honestly whether we're the right fit.</p></details>
+      <details><summary>What happens on the free call?</summary><p>Twenty minutes to understand what you need and why. If we can help, you'll get a fixed-price proposal. If we can't, we'll say so and point you in the right direction.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <div class="wrap contact">
+    <div class="rv">
+      <span class="eyebrow">Get started</span>
+      <h2 style="margin:14px 0 16px">Let's find your <span class="serif" style="color:var(--mint)">standard.</span></h2>
+      <p class="lead">Three quick steps, under a minute. We'll come back to arrange your free 20-minute call.</p>
+      <div class="assure">
+        <div><svg><use href="#tick"/></svg>No obligation, no sales pressure</div>
+        <div><svg><use href="#tick"/></svg>Fixed-price proposal after the call</div>
+        <div><svg><use href="#tick"/></svg>Your details are only used to reply to you</div>
+      </div>
+      <p class="direct">Prefer email? <a href="mailto:hello@normaris.co.uk">hello@normaris.co.uk</a></p>
+    </div>
+    <form class="form rv" id="enq" novalidate>
+      <div class="progress"><span class="on"></span><span></span><span></span></div>
+
+      <div class="fstep active" data-s="1">
+        <h3>What can we help with?</h3>
+        <p>Choose as many as you like.</p>
+        <div class="chips" id="needChips">
+          <button type="button" class="chip" aria-pressed="false">Microsoft services</button>
+          <button type="button" class="chip" aria-pressed="false">Microsoft licensing</button>
+          <button type="button" class="chip" aria-pressed="false">ISO certification</button>
+          <button type="button" class="chip" aria-pressed="false">Cyber Essentials</button>
+          <button type="button" class="chip" aria-pressed="false">Call audit</button>
+          <button type="button" class="chip" aria-pressed="false">Compliance platforms</button>
+          <button type="button" class="chip" aria-pressed="false">HR systems</button>
+          <button type="button" class="chip" aria-pressed="false">Export compliance (ECJU)</button>
+          <button type="button" class="chip" aria-pressed="false">US controlled products (EAR/ITAR)</button>
+          <button type="button" class="chip" aria-pressed="false">Application development</button>
+          <button type="button" class="chip" aria-pressed="false">Hosted voice</button>
+          <button type="button" class="chip" aria-pressed="false">Not sure yet</button>
+        </div>
+        <div class="err" id="e1"></div>
+        <div class="fnav"><span></span><button type="button" class="btn btn-primary" data-next>Next <svg><use href="#arrow"/></svg></button></div>
+      </div>
+
+      <div class="fstep" data-s="2">
+        <h3>About your business</h3>
+        <p>Helps us prepare for the call.</p>
+        <div class="field"><label for="co">Company name</label><input id="co" autocomplete="organization"></div>
+        <div class="row2">
+          <div class="field"><label for="size">Team size</label><select id="size"><option value="">Select…</option><option>1–19</option><option>20–49</option><option>50–99</option><option>100–200</option><option>200+</option></select></div>
+          <div class="field"><label for="sector">Sector</label><select id="sector"><option value="">Select…</option><option>Financial services</option><option>Contact centre / BPO</option><option>Insurance</option><option>Professional services</option><option>Manufacturing</option><option>Construction</option><option>Technology</option><option>Other</option></select></div>
+        </div>
+        <div class="field"><label for="when">When do you need this?</label><select id="when"><option value="">Select…</option><option>As soon as possible</option><option>Within 3 months</option><option>Within 6 months</option><option>Just exploring</option></select></div>
+        <div class="err" id="e2"></div>
+        <div class="fnav"><button type="button" class="btn btn-line" data-back>Back</button><button type="button" class="btn btn-primary" data-next>Next <svg><use href="#arrow"/></svg></button></div>
+      </div>
+
+      <div class="fstep" data-s="3">
+        <h3>Where should we reply?</h3>
+        <p>We'll be in touch to book your call.</p>
+        <div class="row2">
+          <div class="field"><label for="nm">Your name</label><input id="nm" autocomplete="name"></div>
+          <div class="field"><label for="role">Role</label><input id="role" autocomplete="organization-title"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="em">Work email</label><input id="em" type="email" autocomplete="email"></div>
+          <div class="field"><label for="ph">Phone (optional)</label><input id="ph" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="field"><label for="msg">Anything else? (optional)</label><textarea id="msg" placeholder="e.g. a client has asked for ISO 27001 by spring"></textarea></div>
+        <div class="err" id="e3"></div>
+        <div class="fnav"><button type="button" class="btn btn-line" data-back>Back</button><button type="submit" class="btn btn-primary">Send enquiry <svg><use href="#arrow"/></svg></button></div>
+      </div>
+
+      <div class="fstep" data-s="4">
+        <div class="done">
+          <div class="tick"><svg><use href="#tick"/></svg></div>
+          <h3>Nearly done. Send it to us.</h3>
+          <p style="color:var(--muted);font-size:15px;margin-top:6px">Tap below to open your email with everything filled in, or copy it and send to hello@normaris.co.uk.</p>
+          <div class="summary" id="summary"></div>
+          <div class="acts">
+            <a class="btn btn-primary" id="mailBtn" href="#">Open in email <svg><use href="#arrow"/></svg></a>
+            <button type="button" class="btn btn-line" id="copyBtn">Copy details</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#top" class="logo" style="margin-bottom:14px"><svg><use href="#logo"/></svg>Normaris</a>
+        <p style="max-width:300px">A new standard in compliance. Microsoft services and ISO certification for UK businesses.</p>
+      </div>
+      <div><h5>Headline</h5><a href="#microsoft">Microsoft services</a><a href="#iso">ISO certification</a><a href="#pricing">Pricing</a></div>
+      <div><h5>Services</h5><a href="#services">Call audit</a><a href="#services">Compliance platforms</a><a href="#apps">HR systems</a><a href="#apps">Export compliance</a><a href="#services">Hosted voice</a></div>
+      <div><h5>Contact</h5><a href="#contact">Book a free call</a><a href="mailto:hello@normaris.co.uk">hello@normaris.co.uk</a></div>
+    </div>
+    <div class="legal"><span>© 2026 Normaris. All rights reserved.</span><span>Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<div class="mcta" id="mcta"><a href="#contact" class="btn btn-primary">Book a free 20-min call <svg><use href="#arrow"/></svg></a></div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+  /* nav */
+  const nav=$('#nav'), mcta=$('#mcta');
+  const onScroll=()=>{const y=scrollY;nav.classList.toggle('scrolled',y>20);
+    const c=$('#contact').getBoundingClientRect().top;mcta.classList.toggle('show',y>600&&c>innerHeight*.6);};
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const burger=$('#burger'),mm=$('#mmenu');
+  burger.addEventListener('click',()=>{const o=mm.classList.toggle('open');burger.setAttribute('aria-expanded',o)});
+  $$('#mmenu a').forEach(a=>a.addEventListener('click',()=>{mm.classList.remove('open');burger.setAttribute('aria-expanded',false)}));
+
+  /* reveal */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  $$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*60+'ms';io.observe(el)});
+  setTimeout(()=>$$('.ring circle.fg').forEach(c=>c.style.strokeDashoffset=201-(201*c.dataset.v/100)),400);
+
+  /* ISO tabs */
+  const STD={
+    '27001':{h:'Information security',p:'Protect client data and win contracts that demand it. The standard most often asked for in financial services and tech supply chains.',t:['ISMS','Risk assessment','Statement of Applicability','Annex A controls']},
+    '9001':{h:'Quality management',p:'Consistent processes, happy customers and fewer mistakes. The world\'s most widely used management standard.',t:['Process mapping','Customer focus','Corrective action','Management review']},
+    '14001':{h:'Environmental management',p:'Show customers and tenders you take your environmental impact seriously, with evidence to back it up.',t:['Aspects & impacts','Legal register','Objectives','Emergency preparedness']},
+    '45001':{h:'Health & safety',p:'A safer workplace and a defensible, documented approach to occupational health and safety.',t:['Hazard identification','Worker consultation','Incident management','Legal compliance']}
+  };
+  const stdPanel=$('#stdPanel');
+  function showStd(k){const s=STD[k];stdPanel.innerHTML=`<h4>ISO ${k} · ${s.h}</h4><p style="color:var(--muted)">${s.p}</p><ul>${s.t.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    $$('.std-tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.std===k));}
+  $$('.std-tabs button').forEach(b=>b.addEventListener('click',()=>showStd(b.dataset.std)));showStd('27001');
+
+  /* pricing */
+  const P={
+    iso:[{n:'Gap Analysis',a:'£1,500',u:'per standard',d:'1–2 day assessment, gap report and a dated roadmap to certification.'},
+         {n:'Implementation',a:'£6,500',u:'ISO 9001',d:'Full management system, policies, risk register, training, mock audit and certification-body liaison. ISO 27001 from £9,500.',hot:1},
+         {n:'Internal Audit Programme',a:'£2,400',u:'/year per standard',d:'Annual internal audits and management review, keeping your certificate safe.'},
+         {n:'Compliance Retainer',a:'£1,500',u:'/month',d:'Your outsourced compliance manager, 1–2 days a month.'}],
+    ms:[{n:'M365 Launch',a:'£1,500',u:'one-off',d:'Tenant setup or takeover, email migration, Teams & SharePoint structure, MFA and baseline security.'},
+        {n:'Secure Baseline',a:'£2,500',u:'one-off',d:'Intune, Conditional Access, Defender, backup, DLP and DMARC, mapped to Cyber Essentials and ISO 27001.',hot:1},
+        {n:'Compliance-Ready M365',a:'£4,500',u:'one-off',d:'Secure Baseline plus Purview retention, labels, eDiscovery, audit logging and call-recording retention.'},
+        {n:'Managed Microsoft',a:'£15',u:'/user/month',d:'Licence management and monthly security reporting. Support and vCISO tiers at £35 and £60.'}],
+    calls:[{n:'Call Audit Snapshot',a:'£950',u:'fixed',d:'50 calls scored against Consumer Duty, vulnerability and script criteria, with a findings debrief.',hot:1},
+        {n:'QA Framework Build',a:'£3,500',u:'one-off',d:'Scorecard design, calibration sessions and a scoring tool in Microsoft 365.'},
+        {n:'Monthly Audit Retainer',a:'£1,200',u:'/month',d:'100–500 calls a month, Power BI trend dashboard, coaching notes and compliance report.'},
+        {n:'Regulatory Deep Dive',a:'£2,500',u:'one-off',d:'Pre-visit or post-complaint review with root cause and a remediation plan.'}],
+    plat:[{n:'Policy & Document Hub',a:'£3,000',u:'one-off',d:'Controlled documents, review workflows and acknowledgement tracking in SharePoint.'},
+        {n:'Audit & Action Tracker',a:'£4,000',u:'one-off',d:'Audits, non-conformances and CAPA in Power Apps with a Power BI dashboard.',hot:1},
+        {n:'Training Register',a:'£2,500',u:'one-off',d:'Role-based training matrix, expiry alerts and an evidence store.'},
+        {n:'Managed Platform',a:'£400',u:'/month',d:'Updates, support and quarterly improvements to your compliance platform.'}]
+  };
+  const NEED={iso:'ISO certification',ms:'Microsoft services',calls:'Call audit',plat:'Compliance platforms'};
+  const pgrid=$('#pgrid');
+  function showP(k){pgrid.innerHTML=P[k].map(p=>`<div class="plan${p.hot?' hot':''}">${p.hot?'<span class="badge">MOST POPULAR</span>':''}<h3>${p.n}</h3><div class="from">From</div><div class="amt">${p.a} <small>${p.u}</small></div><p>${p.d}</p><a href="#contact" class="btn ${p.hot?'btn-primary':'btn-line'}" data-pre="${NEED[k]}">Get started</a></div>`).join('');
+    $$('.ptabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.p===k));bindPre();}
+  $$('.ptabs button').forEach(b=>b.addEventListener('click',()=>showP(b.dataset.p)));
+  $$('[data-tab]').forEach(a=>a.addEventListener('click',()=>showP(a.dataset.tab)));
+  showP('ms');
+
+  /* finder */
+  const R={
+    iso:{t:'ISO Gap Analysis',d:'Find out exactly what stands between you and certification, and get a dated roadmap.',s:['Free 20-min call to confirm the standard','1–2 day gap analysis on site or remote','Roadmap and fixed price for implementation'],p:'From <b>£1,500</b> per standard',need:'ISO certification'},
+    secure:{t:'Secure Baseline',d:'Lock down Microsoft 365 with controls mapped to Cyber Essentials and ISO 27001.',s:['Free call and Microsoft Secure Score review','Intune, Conditional Access, Defender, DLP','Evidence pack you can hand to an auditor'],p:'From <b>£2,500</b> one-off',need:'Microsoft services'},
+    new:{t:'M365 Launch',d:'A clean Microsoft 365 setup or takeover, with email and files moved across safely.',s:['Free call to plan licences and timings','Tenant setup, migration and MFA','User onboarding and handover'],p:'From <b>£1,500</b> one-off',need:'Microsoft services'},
+    calls:{t:'Call Audit Snapshot',d:'An independent view of call quality and Consumer Duty outcomes, fast.',s:['Free call to agree the scoring framework','50 calls scored and analysed','Findings report and 1-hour debrief'],p:'<b>£950</b> fixed',need:'Call audit'},
+    manual:{t:'Audit & Action Tracker',d:'Replace spreadsheets and email chasing with a tracker inside Microsoft 365.',s:['Free call to map your current process','Build in Power Apps with Power BI dashboard','Training and handover'],p:'From <b>£4,000</b> one-off',need:'Compliance platforms'},
+    ongoing:{t:'Managed Microsoft',d:'One team owning licences, security and reporting every month.',s:['Free call to choose your tier','Onboarding and security baseline check','Monthly health and security report'],p:'From <b>£15</b> per user/month',need:'Microsoft services'},
+    export:{t:'Export Compliance App',d:'One register for classifications, licences, screening and shipment checks, covering UK controls and US-origin items.',s:['Free call to map products, licences and flows','Discovery workshop and fixed-price build plan','Build, test and train your team'],p:'Quoted per project',need:'Export compliance (ECJU)'},
+    hr:{t:'HR System',d:'Onboarding, absence, training and policy sign-off in one system on Microsoft 365.',s:['Free call to map your HR processes','Discovery workshop and fixed-price build plan','Build, migrate data and go live'],p:'Quoted per project',need:'HR systems'}
+  };
+  const STAGE={start:'Starting from scratch',part:'Partly there',nearly:'Nearly there',unsure:'Not sure'};
+  const ans={};
+  $$('.opts').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;
+    g.querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed',o===b));ans[g.dataset.q]=b.dataset.v;renderR();}));
+  function renderR(){if(!ans.goal)return;let r=R[ans.goal];
+    if(ans.goal==='iso'&&ans.stage==='nearly')r={...r,t:'Pre-certification check',d:'A focused internal audit and mock assessment so you walk into your certification audit confident.',s:['Free call to review your current system','Internal audit against the standard','Close-out plan before the certification body arrives'],p:'From <b>£1,500</b>'};
+    const res=$('#result');res.classList.remove('empty');
+    $('#rTitle').textContent=r.t;$('#rDesc').textContent=r.d;
+    $('#rSteps').innerHTML=r.s.map(x=>`<li>${x}</li>`).join('');$('#rPrice').innerHTML=r.p+' · ex VAT';
+    $('#rCta').dataset.pre=r.need;$('#rCta').dataset.note=`Recommended: ${r.t}${ans.stage?' · Stage: '+STAGE[ans.stage]:''}`;bindPre();}
+
+  /* prefill enquiry */
+  const chips=$$('#needChips .chip');
+  function bindPre(){$$('[data-pre]').forEach(a=>{if(a._b)return;a._b=1;a.addEventListener('click',()=>{
+    chips.forEach(c=>{if(c.textContent===a.dataset.pre)c.setAttribute('aria-pressed','true')});
+    if(a.dataset.note){const m=$('#msg');if(!m.value.includes(a.dataset.note))m.value=(a.dataset.note+(m.value?'\n'+m.value:''));}});});}
+  bindPre();
+  chips.forEach(c=>c.addEventListener('click',()=>c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true')));
+
+  /* multistep form */
+  const form=$('#enq');let step=1;
+  const go=n=>{step=n;$$('.fstep').forEach(s=>s.classList.toggle('active',+s.dataset.s===n));
+    $$('.progress span').forEach((p,i)=>p.classList.toggle('on',i<Math.min(n,3)));};
+  const v=id=>$('#'+id).value.trim();
+  function valid(n){
+    if(n===1){const ok=chips.some(c=>c.getAttribute('aria-pressed')==='true');$('#e1').textContent=ok?'':'Pick at least one option.';return ok;}
+    if(n===2){const ok=v('co')&&v('size');$('#e2').textContent=ok?'':'Please add your company name and team size.';return ok;}
+    if(n===3){const ok=v('nm')&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('em'));$('#e3').textContent=ok?'':'Please add your name and a valid email.';return ok;}
+    return true;}
+  form.addEventListener('click',e=>{if(e.target.closest('[data-next]')&&valid(step))go(step+1);if(e.target.closest('[data-back]'))go(step-1);});
+  form.addEventListener('submit',e=>{e.preventDefault();if(!valid(3))return;
+    const needs=chips.filter(c=>c.getAttribute('aria-pressed')==='true').map(c=>c.textContent).join(', ');
+    const body=`Enquiry from the Normaris website\n\nNeeds: ${needs}\nCompany: ${v('co')}\nTeam size: ${v('size')}\nSector: ${v('sector')||'-'}\nTimescale: ${v('when')||'-'}\n\nName: ${v('nm')}\nRole: ${v('role')||'-'}\nEmail: ${v('em')}\nPhone: ${v('ph')||'-'}\n\n${v('msg')}`;
+    $('#summary').textContent=body;
+    $('#mailBtn').href='mailto:hello@normaris.co.uk?subject='+encodeURIComponent('Free call request: '+v('co'))+'&body='+encodeURIComponent(body);
+    go(4);});
+  $('#copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('#summary').textContent);$('#copyBtn').textContent='Copied ✓'}catch(_){$('#copyBtn').textContent='Select the text above to copy'}});
+})();
+</script>
+</body>
+</html>
