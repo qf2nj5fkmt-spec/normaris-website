@@ -62,6 +62,15 @@ section{padding:110px 0}
 .mobile-menu a{display:block;color:#E6EBF7;font-weight:700;font-size:18px;padding:14px 0;border-bottom:1px solid var(--line)}
 .mobile-menu .btn{margin-top:18px;width:100%;justify-content:center}
 .mobile-menu.open{display:block}
+.nav-signin{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;font-weight:600;color:#C9D2E6;padding:8px 6px;margin-right:6px;white-space:nowrap}
+.nav-signin:hover{color:#fff}
+.nav-signin .si-short{display:none}
+.nav-signin svg{width:15px;height:15px;color:var(--mint)}
+.mobile-menu a.mm-signin{display:flex;align-items:center;gap:10px;color:var(--mint)}
+.mobile-menu a.mm-signin svg{width:18px;height:18px}
+.foot a.f-signin{display:inline-flex;align-items:center;gap:7px;color:#E6EBF7;font-weight:600}
+.foot a.f-signin svg{color:var(--mint)}
+.foot a.f-signin:hover{color:#fff}
 
 /* hero */
 .hero{position:relative;background:var(--ink);color:#fff;padding:160px 0 110px;overflow:hidden}
@@ -323,6 +332,9 @@ footer{background:#04070F;color:#8C98B4;padding:56px 0 40px;font-size:14px}
   .wrap{padding:0 18px}
   .hero{padding:124px 0 80px}
   .nav-cta .btn-primary{display:none}
+  .nav-signin{margin-right:2px;font-size:14px}
+  .nav-signin .si-long{display:none}
+  .nav-signin .si-short{display:inline}
   .feature,.bridge{padding:28px}
   .ms-grid,.opts,.cards4,.steps,.row2{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr 1fr}
@@ -466,6 +478,7 @@ footer{background:linear-gradient(180deg,#060913,#03050B)}
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
+      <a href="https://app.normaris.co.uk" class="nav-signin" title="Sign in to the Normaris client platform"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span class="si-long">Client sign in</span><span class="si-short">Sign in</span></a>
       <a href="#finder" class="btn btn-ghost">Find your fit</a>
       <a href="#contact" class="btn btn-primary">Book a free call</a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -480,6 +493,7 @@ footer{background:linear-gradient(180deg,#060913,#03050B)}
   <a href="#finder">Find your starting point</a>
   <a href="#pricing">Pricing</a>
   <a href="#faq">FAQ</a>
+  <a href="https://app.normaris.co.uk" class="mm-signin"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Client sign in</a>
   <a href="#contact" class="btn btn-primary">Book a free call</a>
 </div>
 
@@ -887,7 +901,7 @@ footer{background:linear-gradient(180deg,#060913,#03050B)}
       </div>
       <div><h5>Headline</h5><a href="#microsoft">Microsoft services</a><a href="#iso">ISO certification</a><a href="#pricing">Pricing</a></div>
       <div><h5>Services</h5><a href="#services">Call audit</a><a href="#services">Compliance platforms</a><a href="#apps">HR systems</a><a href="#apps">Export compliance</a><a href="#services">Hosted voice</a></div>
-      <div><h5>Contact</h5><a href="#contact">Book a free call</a><a href="mailto:hello@normaris.co.uk">hello@normaris.co.uk</a></div>
+      <div><h5>Contact</h5><a href="#contact">Book a free call</a><a href="mailto:hello@normaris.co.uk">hello@normaris.co.uk</a><a href="https://app.normaris.co.uk" class="f-signin" style="margin-top:10px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Client sign in</a></div>
     </div>
     <div class="legal"><span>© 2026 Normaris. All rights reserved.</span><span>Privacy · Terms</span></div>
   </div>
